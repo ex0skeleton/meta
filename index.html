@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Meta Wiz: a private browser-based image origin and metadata inspector.">
+  <meta name="theme-color" content="#0c101b">
+  <title>Meta Wiz | Image Origin & Metadata</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--ink:#12231c;--muted:#69766f;--paper:#fff;--wash:#f2f5f3;--line:#dce4df;--orange:#ed6b2f;--orange2:#c84f18;--green:#1c7753;--green-bg:#e9f6ef;--blue:#285d95;--blue-bg:#eaf2fb;--amber:#96621e;--amber-bg:#fff4df;--red:#b53d3d;--red-bg:#fff0ef;--shadow:0 22px 60px rgba(18,35,28,.1);--r:23px}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at 8% 0,rgba(237,107,47,.13),transparent 28rem),radial-gradient(circle at 96% 20%,rgba(28,119,83,.1),transparent 32rem),var(--wash);-webkit-font-smoothing:antialiased}button,input,textarea,select{font:inherit}[hidden]{display:none!important}.shell{width:min(1200px,calc(100% - 30px));margin:auto}header{height:86px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:flex;align-items:center;gap:12px}.logo{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,var(--orange),#f39a4d);box-shadow:0 10px 24px rgba(237,107,47,.23)}.brand strong{display:block;letter-spacing:-.025em}.brand small{display:block;margin-top:2px;color:var(--muted);font-weight:750;letter-spacing:.09em;text-transform:uppercase}.private{display:flex;align-items:center;gap:8px;padding:9px 13px;border:1px solid #cde1d5;border-radius:999px;background:rgba(255,255,255,.8);color:var(--green);font-size:.8rem;font-weight:800}.hero{text-align:center;padding:50px 0 31px}.eyebrow{color:var(--orange2);font-size:.75rem;font-weight:850;letter-spacing:.14em;text-transform:uppercase}.hero h1{max-width:820px;margin:13px auto 15px;font-size:clamp(2.35rem,6.2vw,4.9rem);line-height:.98;letter-spacing:-.065em}.hero p{max-width:690px;margin:auto;color:var(--muted);font-size:clamp(.98rem,1.8vw,1.12rem);line-height:1.65}.upload-shell{padding:11px;border:1px solid rgba(255,255,255,.9);border-radius:30px;background:rgba(255,255,255,.62);box-shadow:var(--shadow);backdrop-filter:blur(14px)}.drop{min-height:260px;padding:32px 20px;display:grid;place-items:center;text-align:center;border:2px dashed #bdcac2;border-radius:21px;background:linear-gradient(145deg,rgba(255,255,255,.86),rgba(244,248,246,.75));cursor:pointer;outline:none;transition:.2s}.drop:hover,.drop:focus-visible,.drop.drag{border-color:var(--orange);background:#fff9f5;transform:translateY(-1px)}.upload-icon{width:66px;height:66px;margin:0 auto 16px;border-radius:20px;display:grid;place-items:center;color:var(--orange);background:#fff0e8}.drop h2{margin:0 0 7px;font-size:1.4rem;letter-spacing:-.03em}.drop p{margin:0 0 18px;color:var(--muted)}.micro{margin-top:14px;color:#829087;font-size:.76rem}.btn{min-height:44px;padding:11px 17px;display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:12px;font-weight:780;cursor:pointer;transition:.18s;color:inherit}.btn:hover:not(:disabled){transform:translateY(-1px)}.btn:disabled{opacity:.45;cursor:not-allowed}.primary{color:#fff;background:var(--orange);box-shadow:0 8px 20px rgba(237,107,47,.2)}.primary:hover:not(:disabled){background:var(--orange2)}.dark{color:#fff;background:var(--ink)}.light{background:#edf1ef}.outline{background:#fff;border:1px solid var(--line)}.app{margin-top:26px;padding-bottom:65px}.topgrid{display:grid;grid-template-columns:minmax(280px,.76fr) minmax(0,1.24fr);gap:21px}.card{background:var(--paper);border:1px solid rgba(212,222,216,.9);border-radius:var(--r);box-shadow:0 15px 38px rgba(24,46,37,.065)}.preview-card{overflow:hidden}.preview{min-height:385px;display:grid;place-items:center;position:relative;overflow:hidden;background:linear-gradient(45deg,#edf1ef 25%,transparent 25%),linear-gradient(-45deg,#edf1ef 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#edf1ef 75%),linear-gradient(-45deg,transparent 75%,#edf1ef 75%),#fafcfb;background-size:24px 24px;background-position:0 0,0 12px,12px -12px,-12px 0}.preview img{display:block;width:100%;height:100%;max-height:520px;object-fit:contain}.badge-float{position:absolute;left:14px;top:14px;padding:7px 10px;border-radius:9px;color:#fff;background:rgba(18,35,28,.76);font-size:.72rem;font-weight:850;backdrop-filter:blur(10px)}.filebox{padding:17px}.filename{font-weight:820;overflow-wrap:anywhere}.facts{margin-top:7px;display:flex;flex-wrap:wrap;gap:8px 14px;color:var(--muted);font-size:.8rem}.origin-card{padding:27px}.label{margin:0 0 6px;color:var(--muted);font-size:.71rem;font-weight:850;letter-spacing:.12em;text-transform:uppercase}.origin-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}.origin-head h2,.panel-head h2{margin:0;letter-spacing:-.04em}.status{padding:7px 10px;border-radius:999px;font-size:.72rem;font-weight:850;white-space:nowrap}.status.loading{color:var(--blue);background:var(--blue-bg)}.status.found{color:var(--green);background:var(--green-bg)}.status.warn{color:var(--amber);background:var(--amber-bg)}.status.none{color:var(--muted);background:#edf1ef}.origin-message{margin:20px 0;padding:18px;border-radius:17px;background:#f7f9f8;display:flex;gap:14px;align-items:center}.origin-symbol{width:52px;height:52px;flex:0 0 auto;display:grid;place-items:center;border-radius:16px;background:var(--blue-bg);color:var(--blue)}.origin-message.ai{background:linear-gradient(135deg,#fff0e8,#fff8f2)}.origin-message.ai .origin-symbol{color:#fff;background:linear-gradient(135deg,var(--orange),#f39748)}.origin-message strong{display:block;font-size:1.04rem}.origin-message span{display:block;margin-top:4px;color:var(--muted);font-size:.82rem;line-height:1.45}.origin-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.datum{padding:12px;border:1px solid var(--line);border-radius:13px;min-width:0}.datum span{display:block;color:var(--muted);font-size:.69rem;font-weight:760;text-transform:uppercase;letter-spacing:.06em}.datum strong{display:block;margin-top:5px;font-size:.87rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.flags{display:flex;flex-wrap:wrap;gap:7px;margin-top:15px}.flag{padding:7px 10px;border-radius:999px;background:#edf1ef;color:var(--muted);font-size:.71rem;font-weight:800}.flag.on{color:var(--amber);background:var(--amber-bg)}.flag.ai{color:var(--orange2);background:#fff0e8}.origin-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:19px}.tabs{margin-top:21px;padding:6px;display:flex;gap:4px;overflow:auto;background:#e5ebe7;border-radius:15px;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}.tab{flex:1 0 auto;padding:11px 14px;border:0;border-radius:10px;background:transparent;color:var(--muted);font-weight:790;cursor:pointer}.tab.active{color:var(--ink);background:#fff;box-shadow:0 3px 10px rgba(20,40,32,.08)}.panel{margin-top:15px}.panel-card{padding:25px}.panel-head{margin-bottom:20px;display:flex;align-items:flex-end;justify-content:space-between;gap:18px}.panel-head p:not(.label){margin:6px 0 0;color:var(--muted);font-size:.86rem}.origin-detail-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:16px}.detail-card{padding:19px;border:1px solid var(--line);border-radius:17px}.detail-card h3{margin:0 0 15px;font-size:1rem}.detail-list{display:grid;gap:0}.detail-row{padding:10px 0;display:grid;grid-template-columns:150px minmax(0,1fr);gap:15px;border-top:1px solid #edf1ef}.detail-row:first-child{border-top:0;padding-top:0}.detail-row span{color:var(--muted);font-size:.78rem}.detail-row strong{font-size:.81rem;overflow-wrap:anywhere}.actions-list{display:flex;flex-wrap:wrap;gap:7px}.action-chip{padding:7px 9px;border-radius:9px;background:var(--blue-bg);color:var(--blue);font-size:.73rem;font-weight:800}.callout{margin-top:16px;padding:14px 15px;border:1px solid #f0dcb9;border-radius:13px;color:#76552a;background:var(--amber-bg);font-size:.8rem;line-height:1.5}.raw-box{margin-top:16px}.raw-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:9px}.raw-head strong{font-size:.83rem}.raw{max-height:360px;margin:0;padding:16px;overflow:auto;border-radius:14px;color:#d9eee3;background:#14231d;font:12px/1.55 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere}.search{width:min(340px,100%);position:relative}.search input,.input,.textarea{width:100%;padding:11px 12px;border:1px solid #d6dfda;border-radius:11px;background:#fbfcfb;color:var(--ink);outline:none;transition:.18s}.search input{padding-left:39px}.search svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:#87948d}.search input:focus,.input:focus,.textarea:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(237,107,47,.12);background:#fff}.meta-toolbar{display:flex;gap:9px;align-items:center}.group{margin-top:16px;overflow:hidden;border:1px solid var(--line);border-radius:15px}.group:first-child{margin-top:0}.group-title{padding:12px 15px;display:flex;align-items:center;justify-content:space-between;background:#f7f9f8;font-size:.78rem;font-weight:850;text-transform:uppercase;letter-spacing:.06em}.group-title span{color:var(--muted);font-size:.7rem}.meta-row{padding:11px 15px;display:grid;grid-template-columns:minmax(175px,.42fr) minmax(0,1fr);gap:17px;border-top:1px solid #edf1ef}.meta-key{color:var(--muted);font-size:.79rem;overflow-wrap:anywhere}.source-tag{display:inline-block;margin-left:5px;padding:2px 5px;border-radius:5px;color:var(--blue);background:var(--blue-bg);font-size:.59rem;font-weight:850;vertical-align:1px}.meta-val{font-size:.81rem;font-weight:650;white-space:pre-wrap;overflow-wrap:anywhere}.empty{padding:40px 18px;text-align:center;color:var(--muted)}.edit-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.field.full{grid-column:1/-1}.field label{display:block;margin-bottom:7px;font-size:.78rem;font-weight:780}.field small{display:block;margin-top:5px;color:var(--muted);font-size:.7rem}.textarea{min-height:90px;resize:vertical}.notice{margin-bottom:17px;padding:13px 15px;border:1px solid #f0dcb9;border-radius:12px;color:#76552a;background:var(--amber-bg);font-size:.8rem;line-height:1.5}.form-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:19px}.clean-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}.clean-option{position:relative}.clean-option input{position:absolute;opacity:0;pointer-events:none}.clean-label{height:100%;padding:18px;display:block;border:2px solid var(--line);border-radius:16px;cursor:pointer;transition:.18s}.clean-option input:checked+.clean-label{border-color:var(--orange);background:#fff9f5;box-shadow:0 0 0 3px rgba(237,107,47,.08)}.radio{width:18px;height:18px;margin-bottom:12px;display:block;border:2px solid #a8b4ad;border-radius:50%}.clean-option input:checked+.clean-label .radio{border:5px solid var(--orange)}.clean-label strong,.clean-label span{display:block}.clean-label strong{font-size:.91rem}.clean-label span:last-child{margin-top:6px;color:var(--muted);font-size:.76rem;line-height:1.45}.quality{margin-top:15px;padding:14px;display:flex;align-items:center;gap:13px;border:1px solid var(--line);border-radius:13px}.quality label{white-space:nowrap;font-size:.77rem;font-weight:780}.quality input{width:100%;accent-color:var(--orange)}.quality b{min-width:40px;font-size:.78rem}.result{margin-top:18px;padding:18px;border:1px solid #cce2d5;border-radius:16px;background:var(--green-bg)}.result-top{display:flex;align-items:center;justify-content:space-between;gap:15px}.result-name{display:flex;align-items:center;gap:11px;min-width:0}.check{width:38px;height:38px;flex:0 0 auto;border-radius:50%;display:grid;place-items:center;color:#fff;background:var(--green)}.result-name strong,.result-name span{display:block}.result-name span{margin-top:3px;color:#4f6b5d;font-size:.75rem;overflow-wrap:anywhere}.compare{margin-top:15px;display:grid;grid-template-columns:1fr 1fr;gap:10px}.compare-col{padding:13px;border:1px solid rgba(28,119,83,.18);border-radius:12px;background:rgba(255,255,255,.62)}.compare-col h4{margin:0 0 9px;font-size:.78rem}.compare-row{display:flex;justify-content:space-between;gap:10px;padding:5px 0;color:var(--muted);font-size:.72rem}.compare-row b{color:var(--ink)}.loader{width:17px;height:17px;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:spin .65s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.toasts{position:fixed;right:17px;bottom:17px;z-index:99;width:min(390px,calc(100% - 34px));display:grid;gap:9px}.toast{padding:13px 15px;border-radius:12px;color:#fff;background:var(--ink);box-shadow:0 14px 35px rgba(0,0,0,.2);font-size:.82rem;animation:in .22s ease}.toast.error{background:var(--red)}@keyframes in{from{opacity:0;transform:translateY(8px)}}footer{padding:3px 0 31px;text-align:center;color:var(--muted);font-size:.75rem}
+    @media(max-width:850px){.topgrid,.origin-detail-grid{grid-template-columns:1fr}.panel-head{align-items:stretch;flex-direction:column}.search{width:100%}.clean-grid{grid-template-columns:1fr}.preview{min-height:290px}}
+    @media(max-width:580px){.shell{width:calc(100% - 20px)}header{height:74px}.private span{display:none}.hero{padding:33px 8px 24px}.drop{min-height:225px}.origin-card,.panel-card{padding:18px}.origin-grid,.edit-grid,.compare{grid-template-columns:1fr}.field.full{grid-column:auto}.detail-row,.meta-row{grid-template-columns:1fr;gap:5px}.result-top{align-items:stretch;flex-direction:column}.result-top .btn{width:100%}.meta-toolbar{align-items:stretch;flex-direction:column}.meta-toolbar .btn{width:100%}}
+  </style>
+  <style>
+    /* Meta Wiz dark-glass theme. Outfit headings + Inter body follow reference card 14. */
+    :root{
+      color-scheme:dark;
+      --ink:#f5f6fb;--muted:#aab3c4;--paper:rgba(25,32,48,.64);
+      --wash:#0c101b;--line:rgba(206,220,245,.14);
+      --orange:#ed6b2f;--orange2:#ff9557;
+      --green:#8de0b5;--green-bg:rgba(49,151,104,.18);
+      --blue:#9ccaff;--blue-bg:rgba(65,133,217,.16);
+      --amber:#ffcb86;--amber-bg:rgba(198,135,48,.15);
+      --red:#ff9d9a;--red-bg:rgba(193,72,79,.17);
+      --shadow:0 24px 76px rgba(0,0,0,.33);
+      --r:24px;
+    }
+    body{
+      position:relative;isolation:isolate;overflow-x:hidden;
+      font-family:Inter,ui-sans-serif,system-ui,sans-serif;
+      background:radial-gradient(circle at 50% -12%,#1d263b 0,#111727 37%,#0c101b 74%);
+      color:var(--ink);
+    }
+    body::before{
+      content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+      background:linear-gradient(rgba(255,255,255,.024) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.024) 1px,transparent 1px);
+      background-size:64px 64px;mask-image:linear-gradient(to bottom,rgba(0,0,0,.5),transparent 84%);
+    }
+    .ambient{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+    .ambient span{position:absolute;display:block;border-radius:50%;filter:blur(74px);opacity:.78;animation:drift 17s ease-in-out infinite alternate}
+    .ambient span:nth-child(1){width:420px;height:420px;top:-175px;left:-105px;background:radial-gradient(circle,#f37135 0,rgba(237,107,47,.32) 49%,transparent 72%)}
+    .ambient span:nth-child(2){width:560px;height:560px;top:10%;right:-240px;background:radial-gradient(circle,#283f78 0,rgba(58,72,126,.45) 51%,transparent 74%);animation-delay:-6s}
+    .ambient span:nth-child(3){width:430px;height:430px;top:52%;left:-250px;background:radial-gradient(circle,#7d3e67 0,rgba(92,51,101,.38) 52%,transparent 75%);animation-delay:-10s}
+    .ambient span:nth-child(4){width:440px;height:440px;bottom:-245px;right:8%;background:radial-gradient(circle,#cb653b 0,rgba(198,91,55,.22) 47%,transparent 74%);animation-delay:-3s}
+    @keyframes drift{to{transform:translate(30px,35px) scale(1.13)}}
+    h1,h2,h3,h4,.brand strong,.filename,.result-name strong,.drop h2{font-family:Outfit,Inter,sans-serif}
+    h1,h2,h3,h4{font-weight:600}
+    .shell{position:relative;z-index:1}
+    header{border-bottom:1px solid rgba(255,255,255,.09)}
+    .brand{gap:13px}
+    .logo{background:linear-gradient(140deg,#ff985d,#ed6b2f 67%,#cf491d);box-shadow:0 0 25px rgba(237,107,47,.33),inset 0 1px 1px rgba(255,255,255,.33)}
+    .brand strong{font-size:1.34rem;font-weight:700;letter-spacing:-.035em;line-height:1.04}
+    .brand strong span{color:#ff995f}
+    .brand small{font-size:.64rem;letter-spacing:.13em;color:#b1bbcc}
+    .private{border-color:rgba(100,214,156,.28);background:rgba(34,119,80,.14);color:#a2ebc0;backdrop-filter:blur(18px)}
+    .eyebrow{color:#ffb281}
+    .hero{padding-top:64px;padding-bottom:40px}
+    .hero h1{max-width:910px;font-weight:600;line-height:1.04;letter-spacing:-.055em;text-wrap:balance;text-shadow:0 9px 46px rgba(0,0,0,.35)}
+    .hero p{color:#bac3d2}
+    .upload-shell,.card,.tabs{
+      border:1px solid rgba(221,231,255,.17);
+      background:linear-gradient(145deg,rgba(49,59,78,.52),rgba(21,27,42,.62));
+      box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.12);
+      backdrop-filter:blur(24px) saturate(130%);
+      -webkit-backdrop-filter:blur(24px) saturate(130%);
+    }
+    .upload-shell{padding:10px;border-radius:30px}
+    .drop{
+      border:1.5px dashed rgba(247,188,142,.45);background:linear-gradient(135deg,rgba(237,107,47,.105),rgba(100,116,168,.055) 58%,rgba(255,255,255,.025));
+      transition:border-color .24s,box-shadow .24s,background .24s,transform .24s;
+    }
+    .drop:hover,.drop:focus-visible,.drop.drag{border-color:#ffad71;background:linear-gradient(135deg,rgba(237,107,47,.18),rgba(125,143,194,.09));box-shadow:inset 0 0 45px rgba(237,107,47,.085),0 0 40px rgba(237,107,47,.18);transform:translateY(-2px)}
+    .upload-icon{color:#ff995f;background:rgba(237,107,47,.16);border:1px solid rgba(237,107,47,.25);box-shadow:0 0 28px rgba(237,107,47,.13)}
+    .drop h2{font-weight:600}
+    .drop p{color:#c0c8d5}
+    .micro{color:#aab5c6}
+    .card{transition:border-color .24s,box-shadow .24s,transform .24s}
+    .card:hover{border-color:rgba(255,168,106,.32);box-shadow:0 23px 68px rgba(0,0,0,.33),0 0 36px rgba(237,107,47,.075),inset 0 1px 0 rgba(255,255,255,.15)}
+    .preview{background:linear-gradient(45deg,rgba(255,255,255,.035) 25%,transparent 25%),linear-gradient(-45deg,rgba(255,255,255,.035) 25%,transparent 25%),linear-gradient(45deg,transparent 75%,rgba(255,255,255,.035) 75%),linear-gradient(-45deg,transparent 75%,rgba(255,255,255,.035) 75%),rgba(10,15,26,.51);background-size:24px 24px;background-position:0 0,0 12px,12px -12px,-12px 0;border-bottom:1px solid var(--line)}
+    .badge-float{background:rgba(23,29,44,.82);border:1px solid rgba(255,255,255,.16)}
+    .filebox{background:rgba(13,19,31,.17)}
+    .label{color:#ffb184}
+    .status{border:1px solid currentColor;box-shadow:inset 0 1px rgba(255,255,255,.06)}
+    .status.loading{color:var(--blue);background:var(--blue-bg)}
+    .status.found{color:var(--green);background:var(--green-bg)}
+    .status.warn{color:var(--amber);background:var(--amber-bg)}
+    .status.none{color:#c4cbda;background:rgba(255,255,255,.08)}
+    .origin-message,.datum,.detail-card,.quality,.compare-col{
+      border:1px solid var(--line);background:rgba(9,15,28,.31);box-shadow:inset 0 1px rgba(255,255,255,.045);
+    }
+    .origin-message.ai{background:linear-gradient(130deg,rgba(237,107,47,.2),rgba(237,107,47,.045));border-color:rgba(237,107,47,.3)}
+    .origin-message.ai .origin-symbol{background:linear-gradient(135deg,#ff9959,#ed6b2f)}
+    .origin-message span,.datum span,.detail-row span,.compare-row,.result-name span{color:#b5bfd0}
+    .origin-symbol{background:var(--blue-bg);color:var(--blue)}
+    .datum{transition:border-color .22s,background .22s,box-shadow .22s}
+    .datum:hover{border-color:rgba(237,107,47,.37);background:rgba(237,107,47,.09);box-shadow:0 0 24px rgba(237,107,47,.08)}
+    .flag{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.09);color:#c3cad8}
+    .flag.on{color:var(--amber);background:var(--amber-bg);border-color:rgba(255,203,134,.2)}
+    .flag.ai{color:#ffab78;background:rgba(237,107,47,.19);border-color:rgba(237,107,47,.3)}
+    .tabs{border-radius:17px;padding:7px;gap:5px}
+    .tab{color:#b5bed0;transition:color .2s,background .2s,box-shadow .2s,transform .2s}
+    .tab:hover:not(.active){color:#fff;background:rgba(255,255,255,.09);box-shadow:0 0 25px rgba(255,255,255,.05)}
+    .tab.active{color:#fff;background:linear-gradient(135deg,rgba(237,107,47,.46),rgba(237,107,47,.19));box-shadow:inset 0 1px rgba(255,255,255,.17),0 0 26px rgba(237,107,47,.17)}
+    .panel-head p:not(.label){color:#b4bed0}
+    .detail-row,.meta-row{border-top-color:rgba(255,255,255,.105)}
+    .action-chip{color:#b5d6ff;background:var(--blue-bg);border:1px solid rgba(132,184,255,.17)}
+    .callout,.notice{border-color:rgba(255,191,114,.3);color:#ffe0ad;background:rgba(197,131,46,.13)}
+    .raw{border:1px solid rgba(255,255,255,.12);background:rgba(7,12,22,.81);color:#d4e7dc}
+    .search input,.input,.textarea{border-color:rgba(220,232,255,.19);background:rgba(8,14,27,.47);color:#f5f6fb;caret-color:#ff975a}
+    .search input::placeholder,.input::placeholder,.textarea::placeholder{color:#a5afc0;opacity:1}
+    .search input:focus,.input:focus,.textarea:focus{border-color:#ff985c;background:rgba(14,21,36,.9);box-shadow:0 0 0 3px rgba(237,107,47,.18),0 0 23px rgba(237,107,47,.12)}
+    .search svg{color:#b2bbc9}
+    .field small{color:#adb7c6}
+    .group{border-color:var(--line);background:rgba(10,16,29,.19)}
+    .group-title{background:rgba(255,255,255,.075)}
+    .meta-row{transition:background .16s}
+    .meta-row:hover{background:rgba(255,255,255,.055)}
+    .source-tag{color:#b7d6ff;background:rgba(72,135,214,.2)}
+    .clean-label{border-color:var(--line);background:rgba(8,14,27,.25);transition:border-color .22s,background .22s,box-shadow .22s,transform .22s}
+    .clean-label:hover{border-color:rgba(255,168,106,.48);background:rgba(237,107,47,.09);box-shadow:0 0 24px rgba(237,107,47,.09);transform:translateY(-2px)}
+    .clean-option input:checked+.clean-label{border-color:var(--orange);background:rgba(237,107,47,.16);box-shadow:0 0 0 3px rgba(237,107,47,.12),inset 0 1px rgba(255,255,255,.07)}
+    .clean-option input:focus-visible+.clean-label{outline:2px solid #ffb084;outline-offset:3px}
+    .radio{border-color:#aab4c5}
+    .clean-label span:last-child{color:#bac3d1}
+    .quality{background:rgba(9,15,28,.35)}
+    .result{border-color:rgba(111,226,156,.28);background:linear-gradient(125deg,rgba(34,124,80,.28),rgba(17,65,53,.19));box-shadow:inset 0 1px rgba(255,255,255,.07)}
+    .check{color:#082114;background:#58cb88;box-shadow:0 0 22px rgba(76,213,134,.34)}
+    .compare-col{background:rgba(8,25,22,.25)}
+    .compare-row b{color:#f3f6f8}
+    .btn{transition:transform .2s,background .2s,border-color .2s,box-shadow .2s,color .2s}
+    .btn:hover:not(:disabled){transform:translateY(-2px)}
+    .btn:focus-visible,.tab:focus-visible,.drop:focus-visible{outline:2px solid #ffc392;outline-offset:3px}
+    .btn.primary{color:#fff;background:linear-gradient(135deg,#ff9454,#ed6b2f 63%,#d9571f);box-shadow:0 9px 26px rgba(237,107,47,.26),inset 0 1px 1px rgba(255,255,255,.23)}
+    .btn.primary:hover:not(:disabled){background:linear-gradient(135deg,#ffb177,#ff803e);box-shadow:0 11px 34px rgba(237,107,47,.43),0 0 30px rgba(237,107,47,.32)}
+    .btn.dark,.btn.outline,.btn.light{color:#eff3fb;background:rgba(31,39,58,.72);border:1px solid rgba(225,234,255,.19);box-shadow:inset 0 1px rgba(255,255,255,.07)}
+    .btn.dark:hover:not(:disabled),.btn.outline:hover:not(:disabled),.btn.light:hover:not(:disabled){border-color:rgba(255,169,111,.55);background:rgba(237,107,47,.17);box-shadow:0 0 28px rgba(237,107,47,.16)}
+    .toast{background:rgba(26,35,52,.96);border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(18px)}
+    .toast.error{background:#82363e;border-color:rgba(255,154,146,.36)}
+    footer{color:#abb5c5;line-height:1.7;padding-bottom:30px}
+    .footer-credit{display:block;margin-top:3px;color:#8793a7;font-size:.69rem;letter-spacing:.02em}
+    .manual-toggle{
+      position:fixed;right:19px;bottom:18px;z-index:70;width:38px;height:38px;
+      border:1px solid rgba(205,217,238,.13);border-radius:50%;
+      background:rgba(22,29,44,.6);color:#a4acb9;opacity:.62;
+      font:600 16px Outfit,Inter,sans-serif;cursor:pointer;
+      backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+      transition:opacity .2s,border-color .2s,background .2s;
+    }
+    .manual-toggle:hover,.manual-toggle:focus-visible{opacity:1;border-color:rgba(222,232,250,.37);background:rgba(39,48,66,.86)}
+    .manual-toggle:focus-visible,.manual-close:focus-visible{outline:2px solid #ffc392;outline-offset:3px}
+    .toasts{bottom:68px}
+    .manual-dialog{
+      width:min(710px,calc(100vw - 28px));max-height:min(84vh,760px);padding:0;
+      border:1px solid rgba(222,231,250,.23);border-radius:21px;
+      background:linear-gradient(145deg,rgba(35,43,61,.97),rgba(17,24,38,.98));
+      color:#f5f6fb;box-shadow:0 28px 90px rgba(0,0,0,.65),inset 0 1px rgba(255,255,255,.12);
+      overflow:auto;
+    }
+    .manual-dialog::backdrop{background:rgba(3,7,16,.72);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px)}
+    .manual-head{position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:15px;padding:21px 25px 17px;border-bottom:1px solid var(--line);background:rgba(27,35,52,.97)}
+    .manual-head h2{margin:0;font:600 1.48rem Outfit,Inter,sans-serif}
+    .manual-head p{margin:3px 0 0;color:#aeb8c8;font-size:.78rem}
+    .manual-close{width:34px;height:34px;flex:0 0 auto;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.06);color:#dce2ee;font-size:1.25rem;line-height:1;cursor:pointer}
+    .manual-close:hover{background:rgba(255,255,255,.12)}
+    .manual-body{padding:18px 25px 26px;font-size:.85rem;line-height:1.65;color:#c6cfdd}
+    .manual-body section+section{margin-top:19px;padding-top:18px;border-top:1px solid rgba(255,255,255,.1)}
+    .manual-body h3{margin:0 0 8px;color:#f5f6fb;font:600 1.04rem Outfit,Inter,sans-serif}
+    .manual-body p{margin:0 0 9px}
+    .manual-body p:last-child{margin-bottom:0}
+    .manual-body dl{margin:0;display:grid;grid-template-columns:minmax(175px,.43fr) minmax(0,1fr);gap:9px 18px}
+    .manual-body dt{color:#eff2f8;font-weight:700}
+    .manual-body dd{margin:0}
+    .manual-body strong{color:#f2f4f8}
+    @media(max-width:580px){.manual-body dl{grid-template-columns:1fr;gap:2px}.manual-body dd{margin-bottom:10px}.manual-head,.manual-body{padding-left:17px;padding-right:17px}.manual-toggle{right:13px;bottom:12px}}
+    @media(max-width:580px){.hero{padding-top:38px;padding-bottom:28px}.brand strong{font-size:1.2rem}.ambient span:nth-child(2){right:-370px}}
+    @media(prefers-reduced-motion:reduce){.ambient span{animation:none}.btn,.tab,.drop,.clean-label,.card,.datum,.meta-row{transition:none!important}}
+  </style>
+</head>
+<body>
+  <div class="ambient" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+  <div class="shell">
+    <header>
+      <div class="brand"><div class="logo"><svg width="27" height="27" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.5 8.5 6.3 17h2.2l3.5-6.5 3.5 6.5h2.2l2.8-8.5" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 2v4m-2-2h4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></div><div><strong>Meta <span>Wiz</span></strong><small>Image intelligence</small></div></div>
+      <div class="private" title="Your image stays in this browser"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M7 10V8a5 5 0 0110 0v2M6 10h12v10H6V10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Private by design</span></div>
+    </header>
+    <main>
+      <section class="hero"><div class="eyebrow">Metadata + content provenance</div><h1>Find out where an image really came from.</h1><p>Inspect ordinary EXIF and deeper Content Credentials, including declared AI origin, generator, actions and embedded C2PA data, without uploading the image.</p></section>
+      <section class="upload-shell"><div class="drop" id="drop" role="button" tabindex="0"><div><div class="upload-icon"><svg width="31" height="31" viewBox="0 0 24 24" fill="none"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5M5 14v5h14v-5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h2>Drop an image for deep inspection</h2><p>or choose one from your computer</p><button class="btn primary" id="browse" type="button">Choose image</button><div class="micro">JPEG, PNG, WebP, GIF, TIFF, HEIC and AVIF · maximum 60 MB</div></div></div><input id="file" type="file" accept="image/*,.heic,.heif,.tif,.tiff,.avif" hidden></section>
+
+      <section class="app" id="app" hidden>
+        <div class="topgrid">
+          <article class="card preview-card"><div class="preview"><img id="preview" alt="Selected image"><span class="badge-float" id="type">IMAGE</span></div><div class="filebox"><div class="filename" id="name">Not selected</div><div class="facts"><span id="dimensions">Not available</span><span id="size">Not available</span><span id="mime">Not available</span></div></div></article>
+          <article class="card origin-card">
+            <div class="origin-head"><div><p class="label">Content origin</p><h2 id="originTitle">Analysing provenance…</h2></div><span class="status loading" id="engineStatus">Starting engines</span></div>
+            <div class="origin-message" id="originMessage"><div class="origin-symbol" id="originSymbol"><svg width="27" height="27" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="2"/><path d="M12 8v4l3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div><div><strong id="originHeadline">Looking beyond ordinary EXIF</strong><span id="originSubline">Checking C2PA, JUMBF, CBOR and generator declarations.</span></div></div>
+            <div class="origin-grid"><div class="datum"><span>Declared generator</span><strong id="generator">Checking…</strong></div><div class="datum"><span>Software agent</span><strong id="agent">Checking…</strong></div><div class="datum"><span>Digital source</span><strong id="sourceType">Checking…</strong></div><div class="datum"><span>Credential status</span><strong id="credential">Checking…</strong></div></div>
+            <div class="flags"><span class="flag" id="flagAi">AI declaration</span><span class="flag" id="flagC2pa">C2PA</span><span class="flag" id="flagGps">GPS</span><span class="flag" id="flagExif">EXIF</span></div>
+            <div class="origin-actions"><button class="btn dark" type="button" data-go="origin">View origin details</button><button class="btn outline" type="button" id="change">Change image</button></div>
+          </article>
+        </div>
+
+        <nav class="tabs" aria-label="Tool sections"><button class="tab active" data-tab="origin" type="button">Content Origin</button><button class="tab" data-tab="metadata" type="button">All Metadata</button><button class="tab" data-tab="edit" type="button">Edit</button><button class="tab" data-tab="clean" type="button">Clean & Verify</button></nav>
+
+        <section class="panel" id="panel-origin">
+          <article class="card panel-card"><div class="panel-head"><div><p class="label">Provenance report</p><h2>Content Credentials</h2><p>Human-readable origin information first, with the raw manifest available underneath.</p></div></div>
+            <div class="origin-detail-grid">
+              <div class="detail-card"><h3>Declared provenance</h3><div class="detail-list" id="originDetails"><div class="empty">Analysing embedded provenance…</div></div></div>
+              <div class="detail-card"><h3>Recorded actions</h3><div class="actions-list" id="actions"><span class="action-chip">Checking…</span></div><div class="callout" id="originCaution">A provenance declaration is not the same as an AI detector. If no credentials exist, the image may still be AI-generated.</div></div>
+            </div>
+            <div class="raw-box"><div class="raw-head"><strong>Raw C2PA / deep-provenance output</strong><button class="btn light" type="button" id="copyRaw">Copy JSON</button></div><pre class="raw" id="rawOrigin">Waiting for an image…</pre></div>
+          </article>
+        </section>
+
+        <section class="panel" id="panel-metadata" hidden>
+          <article class="card panel-card"><div class="panel-head"><div><p class="label">Deep tag dump</p><h2>All detected metadata</h2><p>Browse detected tags and search for a specific field or value.</p></div><div class="meta-toolbar"><div class="search"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><input id="search" type="search" placeholder="Search any tag or value"></div><button class="btn outline" type="button" id="exportJson">Export JSON</button></div></div><div id="metadata"><div class="empty">Reading metadata…</div></div></article>
+        </section>
+
+        <section class="panel" id="panel-edit" hidden>
+          <article class="card panel-card"><div class="panel-head"><div><p class="label">Write common fields</p><h2>Edit image metadata</h2><p>Edit JPEG, PNG, WebP or TIFF. Your original remains untouched, and the edited image downloads separately.</p></div></div><div class="notice" id="editNotice">Editing an image with signed Content Credentials may invalidate its signature.</div>
+            <form id="editForm"><div class="edit-grid"><div class="field"><label for="artist">Artist / Creator</label><input class="input" id="artist" maxlength="200" placeholder="e.g. Jhon Doe"></div><div class="field"><label for="copyright">Copyright</label><input class="input" id="copyright" maxlength="240" placeholder="e.g. © 2026 Jhon Doe"></div><div class="field"><label for="make">Camera make</label><input class="input" id="make" maxlength="120" placeholder="e.g. Example Camera Co."></div><div class="field"><label for="model">Camera model</label><input class="input" id="model" maxlength="120" placeholder="e.g. Camera Model X"></div><div class="field"><label for="taken">Date taken</label><input class="input" id="taken" type="datetime-local"></div><div class="field"><label for="software">Software</label><input class="input" id="software" maxlength="120" placeholder="e.g. Photo Editor"></div><div class="field"><label for="lat">Latitude</label><input class="input" id="lat" inputmode="decimal" placeholder="e.g. 40.7128"><small>Range -90 to 90. Enter both coordinates together.</small></div><div class="field"><label for="lng">Longitude</label><input class="input" id="lng" inputmode="decimal" placeholder="e.g. -74.0060"><small>Range -180 to 180. Enter both coordinates together.</small></div><div class="field full"><label for="description">Image description</label><textarea class="textarea" id="description" maxlength="1000" placeholder="Describe the image"></textarea></div></div><div class="form-actions"><button class="btn primary" id="saveEdit" type="submit">Apply metadata</button><button class="btn light" id="clearEdit" type="button">Clear fields</button></div></form>
+            <div class="result" id="editResult" hidden><div class="result-top"><div class="result-name"><div class="check">✓</div><div><strong>Edited image ready</strong><span id="editName">Not available</span></div></div><button class="btn dark" type="button" data-download="edit">Download edited image</button></div></div>
+          </article>
+        </section>
+
+        <section class="panel" id="panel-clean" hidden>
+          <article class="card panel-card"><div class="panel-head"><div><p class="label">Privacy cleaner</p><h2>Clean and verify</h2><p>Choose what to remove, then compare the output against the original before downloading.</p></div></div>
+            <div class="clean-grid">
+              <label class="clean-option"><input type="radio" name="method" value="gps" checked><span class="clean-label"><span class="radio"></span><strong>Remove GPS only</strong><span>JPEG only. Clears the EXIF GPS directory while preserving other metadata.</span></span></label>
+              <label class="clean-option"><input type="radio" name="method" value="exif"><span class="clean-label"><span class="radio"></span><strong>Remove EXIF block</strong><span>JPEG only. Lossless pixel data, but C2PA/JUMBF may remain.</span></span></label>
+              <label class="clean-option"><input type="radio" name="method" value="full"><span class="clean-label"><span class="radio"></span><strong>Complete pixel clean</strong><span>Re-encodes visible pixels to remove EXIF, XMP, IPTC and original C2PA/JUMBF data.</span></span></label>
+            </div>
+            <div class="quality" id="qualityBox" hidden><label for="quality">Export quality</label><input id="quality" type="range" min="70" max="100" value="94"><b id="qualityValue">94%</b></div>
+            <div class="notice" id="cleanNotice" style="margin-top:15px;margin-bottom:0">Removing EXIF alone does not guarantee that Content Credentials are removed. Choose Complete pixel clean when you need a fresh metadata-free copy.</div><div class="form-actions"><button class="btn primary" id="clean" type="button">Clean and verify</button></div>
+            <div class="result" id="cleanResult" hidden><div class="result-top"><div class="result-name"><div class="check">✓</div><div><strong>Processed image verified</strong><span id="cleanName">Not available</span></div></div><button class="btn dark" type="button" data-download="clean">Download clean image</button></div><div class="compare"><div class="compare-col"><h4>Original</h4><div class="compare-row"><span>Metadata fields</span><b id="beforeFields">Not available</b></div><div class="compare-row"><span>GPS</span><b id="beforeGps">Not available</b></div><div class="compare-row"><span>C2PA markers</span><b id="beforeC2pa">Not available</b></div><div class="compare-row"><span>File size</span><b id="beforeSize">Not available</b></div></div><div class="compare-col"><h4>Processed</h4><div class="compare-row"><span>Metadata fields</span><b id="afterFields">Not available</b></div><div class="compare-row"><span>GPS</span><b id="afterGps">Not available</b></div><div class="compare-row"><span>C2PA markers</span><b id="afterC2pa">Not available</b></div><div class="compare-row"><span>File size</span><b id="afterSize">Not available</b></div></div></div></div>
+          </article>
+        </section>
+      </section>
+    </main>
+    <footer>Meta Wiz · Image origin and metadata inspection · No image uploads<small class="footer-credit">Ex0skeleton | 2026 | No Copyright</small></footer>
+  </div>
+  <button class="manual-toggle" id="manualToggle" type="button" aria-label="Open Meta Wiz user manual" aria-haspopup="dialog" aria-controls="manualDialog" title="User manual">?</button>
+  <dialog class="manual-dialog" id="manualDialog" aria-labelledby="manualTitle">
+    <div class="manual-head"><div><h2 id="manualTitle">Meta Wiz user manual</h2><p>A guide to what the image results mean.</p></div><button class="manual-close" id="manualClose" type="button" aria-label="Close user manual">×</button></div>
+    <div class="manual-body">
+      <section><h3>Getting started</h3><p>Drop an image or choose one from your computer. The preview and basic metadata appear first. A deeper scan may finish later. Use the tabs to inspect its origin, search every detected tag, edit common fields or clean a copy.</p></section>
+      <section><h3>Content origin</h3><p><strong>Content Credentials (C2PA)</strong> are a record embedded in some images. They can describe who or what created or edited an image. <strong>Declared generator</strong> is the named tool or organization, <strong>Software agent</strong> is a specific app or model, and <strong>Digital source</strong> describes the type of source, such as AI-generated media. These are declarations, not an independent AI detector.</p><p>An OpenAI or GPT name in the results is useful evidence to investigate, but a plain metadata tag or visible text can be altered. A signed credential is stronger only when its validation and signer trust are checked.</p></section>
+      <section><h3>Credential status, in plain language</h3><dl>
+        <dt>Manifest read successfully</dt><dd>A C2PA record was opened, and this scan did not report a validation problem. It does <strong>not</strong> mean its signer was trusted. Meta Wiz does not check signer trust here.</dd>
+        <dt>Validation issues found</dt><dd>The record reported a validation issue. Treat its origin claims with caution; inspect the raw C2PA output for details.</dd>
+        <dt>Detected · verification unavailable</dt><dd>A C2PA-like marker was found, but the record could not be parsed or checked. No conclusion about authenticity is possible from this status.</dd>
+        <dt>Not detected</dt><dd>No Content Credentials were found. The image could still be AI-generated or could have had its credentials removed.</dd>
+      </dl></section>
+      <section><h3>Other labels you will see</h3><dl>
+        <dt>AI declaration</dt><dd>Embedded data says the content is AI-generated or names an AI tool. It is a claim, not a detection score.</dd>
+        <dt>Recorded actions</dt><dd>Changes listed by a credential, such as creating, cropping or editing. “No actions declared” only means none were found here.</dd>
+        <dt>GPS / EXIF</dt><dd>GPS can reveal a location. EXIF can include camera settings, dates and device information.</dd>
+        <dt>Metadata fields</dt><dd>The number of readable tags found by the scan. It is not a measure of privacy or authenticity.</dd>
+      </dl></section>
+      <section><h3>All Metadata and Edit</h3><p>Search a tag or value in <strong>All Metadata</strong>, or export the detected data as JSON. In <strong>Edit</strong>, enter the common fields you want in a separate image copy. JPEG writes EXIF; PNG, WebP and TIFF use compatible metadata fields. Enter both latitude and longitude together. Editing a signed image may make its existing credential invalid, and this app cannot create a genuine signed credential.</p></section>
+      <section><h3>Clean and verify</h3><p><strong>Remove GPS only</strong> removes the JPEG EXIF location directory. <strong>Remove EXIF block</strong> removes JPEG EXIF but may leave XMP or Content Credentials. <strong>Complete pixel clean</strong> rebuilds the visible image and discards most original embedded metadata, but may change quality, color or file format. Compare the processed copy before downloading. Text or clues visible in the picture itself are not removed.</p></section>
+      <section><h3>Privacy and limits</h3><p>Your selected image is processed in this browser and is not uploaded by Meta Wiz. The page loads fonts and processing libraries from external providers when connected to the internet. Some formats or engines may not work in every browser. A missing claim never proves where an image came from.</p></section>
+    </div>
+  </dialog>
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+  <script src="https://cdn.jsdelivr.net/npm/exifreader@4.44.1/dist/exif-reader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/piexifjs@1.0.6/piexif.min.js"></script>
+  <script>
+  (()=>{'use strict';
+    const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+    const S={file:null,url:null,tags:{},entries:[],standard:[],deep:[],container:[],c2pa:null,markers:null,outputs:{edit:null,clean:null},c2paEngine:null};
+    const E={drop:$('#drop'),file:$('#file'),browse:$('#browse'),app:$('#app'),preview:$('#preview'),type:$('#type'),name:$('#name'),dimensions:$('#dimensions'),size:$('#size'),mime:$('#mime'),engine:$('#engineStatus'),originTitle:$('#originTitle'),originMessage:$('#originMessage'),originHeadline:$('#originHeadline'),originSubline:$('#originSubline'),generator:$('#generator'),agent:$('#agent'),sourceType:$('#sourceType'),credential:$('#credential'),flagAi:$('#flagAi'),flagC2pa:$('#flagC2pa'),flagGps:$('#flagGps'),flagExif:$('#flagExif'),originDetails:$('#originDetails'),actions:$('#actions'),rawOrigin:$('#rawOrigin'),metadata:$('#metadata'),search:$('#search'),editForm:$('#editForm'),saveEdit:$('#saveEdit'),editResult:$('#editResult'),editName:$('#editName'),qualityBox:$('#qualityBox'),quality:$('#quality'),qualityValue:$('#qualityValue'),clean:$('#clean'),cleanResult:$('#cleanResult'),cleanName:$('#cleanName'),toasts:$('#toasts')};
+    const MAX=60*1024*1024;
+    const groups=[['Content Provenance',/c2pa|jumbf|cbor|claim|assertion|ingredient|generator|digital.?source|validation|signature/i],['Location & GPS',/gps|latitude|longitude|altitude|location|position/i],['Camera & Lens',/make|model|lens|camera|focal|serial|owner|body/i],['Capture Settings',/exposure|aperture|fnumber|iso|shutter|flash|metering|white.?balance|brightness|scene|orientation|datetime|date|time/i],['Creator & Rights',/artist|author|creator|copyright|credit|rights|description|caption|headline|keyword|title/i],['Image & File',/width|height|dimension|resolution|bits|compression|color|profile|icc|mime|format|type|encoding|chunk|segment|megapixel/i],['Software & Workflow',/software|application|photoshop|lightroom|history|modify|processing/i]];
+    function toast(msg,type=''){const n=document.createElement('div');n.className='toast '+(type==='error'?'error':'');n.textContent=msg;E.toasts.append(n);setTimeout(()=>n.remove(),4300)}
+    function bytes(n){if(!Number.isFinite(n)||!n)return'0 B';const u=['B','KB','MB','GB'],i=Math.min(Math.floor(Math.log(n)/Math.log(1024)),3);return`${(n/1024**i).toFixed(i?1:0)} ${u[i]}`}
+    function base(n){return n.replace(/\.[^/.]+$/,'')}function jpeg(f=S.file){return!!f&&(/jpe?g/i.test(f.type)||/\.jpe?g$/i.test(f.name))}
+    function editable(f=S.file){return!!f&&(/\.(jpe?g|png|webp|tiff?)$/i.test(f.name)||/image\/(jpeg|png|webp|tiff)/i.test(f.type))}
+    function safe(v){if(v==null)return'';if(v instanceof Uint8Array||v instanceof ArrayBuffer)return`(Binary data ${v.byteLength} bytes)`;if(typeof v==='object'){try{return JSON.stringify(v)}catch{return String(v)}}return String(v).replace(/\0/g,'').trim()}
+    function flat(obj,p='',out=[],seen=new WeakSet(),limit=1000){if(out.length>=limit)return out;if(obj===null||typeof obj!=='object'){out.push({key:p||'Value',value:safe(obj)});return out}if(seen.has(obj))return out;seen.add(obj);if(ArrayBuffer.isView(obj)||obj instanceof ArrayBuffer){out.push({key:p||'Binary',value:`(Binary data ${obj.byteLength} bytes)`});return out}const keys=Object.keys(obj);if(!keys.length){out.push({key:p||'Value',value:safe(obj)});return out}for(const k of keys){if(out.length>=limit)break;const path=p?`${p}.${k}`:k;const v=obj[k];if(v!==null&&typeof v==='object'&&!ArrayBuffer.isView(v))flat(v,path,out,seen,limit);else out.push({key:path,value:safe(v)})}return out}
+    function tag(name){const k=Object.keys(S.tags).find(x=>x.toLowerCase()===name.toLowerCase());if(!k)return'';const t=S.tags[k];return safe(t?.description??t?.value??t)}
+    function first(...names){for(const n of names){const v=tag(n);if(v)return v}return''}
+    function hasGps(entries=S.entries){return entries.some(x=>/gpslatitude|gpslongitude|latitude|longitude/i.test(x.key)&&x.value&&!/undefined|null/i.test(x.value))}
+    function dataUrl(file){return new Promise((res,rej)=>{const r=new FileReader;r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(file)})}
+    function urlBlob(u){const[h,d]=u.split(','),m=(h.match(/data:([^;]+)/)||[])[1]||'image/jpeg',b=atob(d),a=new Uint8Array(b.length);for(let i=0;i<b.length;i++)a[i]=b.charCodeAt(i);return new Blob([a],{type:m})}
+    function reset(kind){const o=S.outputs[kind];if(o?.url)URL.revokeObjectURL(o.url);S.outputs[kind]=null;(kind==='edit'?E.editResult:E.cleanResult).hidden=true}
+    function busy(btn,on,label){if(on){btn.dataset.old=btn.textContent;btn.innerHTML='<span class="loader"></span>Processing…';btn.disabled=true}else{btn.textContent=btn.dataset.old||label;btn.disabled=false}}
+    async function timeout(p,ms,msg){let id;const t=new Promise((_,rej)=>id=setTimeout(()=>rej(new Error(msg)),ms));try{return await Promise.race([p,t])}finally{clearTimeout(id)}}
+    function scanMarkers(buffer){const text=new TextDecoder('latin1').decode(buffer),low=text.toLowerCase();const values=(re)=>[...text.matchAll(re)].map(m=>m[0]);const actions=[...new Set(values(/c2pa\.(?:created|converted|edited|opened|published|watermarked(?:\.unbound)?|placed|removed|cropped|resized|filtered|color_adjustments)/gi))];let generator='';if(low.includes('openai media service api'))generator='OpenAI Media Service API';else if(low.includes('adobe'))generator='Adobe';else if(low.includes('google'))generator='Google';else if(low.includes('microsoft'))generator='Microsoft';const agent=(text.match(/gpt-image(?:-[a-z0-9._-]+)?/i)||[])[0]||'';const trained=low.includes('trainedalgorithmicmedia');const c2pa=low.includes('c2pa')&&(low.includes('jumb')||low.includes('claim_generator')||low.includes('contentauth'));return{c2pa,generator,agent,trained,actions,markers:[...new Set([...(c2pa?['c2pa']:[]),...(low.includes('jumb')?['JUMBF']:[]),...(low.includes('cbor')?['CBOR']:[]),...(agent?[agent]:[]),...(generator?[generator]:[]),...(trained?['trainedAlgorithmicMedia']:[]),...actions])]}}
+    function containerEntries(buffer,file){const a=new Uint8Array(buffer),v=new DataView(buffer),out=[];if(a.length>8&&a[0]===137&&String.fromCharCode(...a.slice(1,4))==='PNG'){let o=8,i=0;while(o+12<=a.length&&i<500){const len=v.getUint32(o),type=String.fromCharCode(...a.slice(o+4,o+8));out.push({key:`PNG.Chunk.${String(i).padStart(3,'0')}.${type}`,value:`${len} bytes`,source:'Container'});o+=12+len;i++;if(type==='IEND')break}}else if(a[0]===255&&a[1]===216){let o=2,i=0;while(o+4<a.length&&i<500){if(a[o]!==255){o++;continue}const marker=a[o+1];if(marker===217||marker===218)break;if(marker===0||marker===1||marker>=208&&marker<=215){o+=2;continue}const len=v.getUint16(o+2);const name=marker===225?'APP1 (EXIF/XMP)':marker===235?'APP11 (possible JUMBF)':marker===226?'APP2 (ICC)':`Marker 0x${marker.toString(16).toUpperCase()}`;out.push({key:`JPEG.Segment.${String(i).padStart(3,'0')}.${name}`,value:`${len} bytes`,source:'Container'});o+=2+len;i++}}out.unshift({key:'File.FileName',value:file.name,source:'Container'},{key:'File.FileSize',value:bytes(file.size),source:'Container'},{key:'File.MIMEType',value:file.type||'Unknown',source:'Container'});return out}
+    async function standardInspect(file,buffer){if(!window.ExifReader)throw new Error('Standard metadata library did not load.');const tags=ExifReader.load(buffer,{includeUnknown:true})||{};const entries=Object.entries(tags).map(([key,t])=>({key,value:safe(t?.description??t?.value??t),source:'Reader'})).filter(x=>x.value&&!/^Thumbnail$/i.test(x.key));return{tags,entries}}
+    async function exifToolInspect(file){const urls=['https://esm.sh/@uswriting/exiftool@1.4.0?bundle','https://cdn.jsdelivr.net/npm/@uswriting/exiftool@1.4.0/+esm'];let last;for(const url of urls){try{const mod=await timeout(import(url),20000,'ExifTool engine download timed out.');if(typeof mod.parseMetadata!=='function')throw new Error('ExifTool parser export missing.');const result=await timeout(mod.parseMetadata(file,{args:['-json','-G1','-a','-s'],transform:d=>JSON.parse(d)}),50000,'ExifTool analysis timed out.');if(!result.success)throw new Error(result.error||'ExifTool returned an error.');const root=Array.isArray(result.data)?result.data[0]:result.data;return{ok:true,raw:root,entries:flat(root).map(x=>({...x,source:'ExifTool'}))}}catch(e){last=e}}return{ok:false,error:last?.message||'ExifTool-WASM unavailable.',entries:[]}}
+    async function c2paInspect(file){const urls=['https://esm.sh/@contentauth/c2pa-web@0.14.4/inline?bundle','https://cdn.jsdelivr.net/npm/@contentauth/c2pa-web@0.14.4/inline/+esm'];let last;for(const url of urls){try{if(!S.c2paEngine){const mod=await timeout(import(url),25000,'C2PA engine download timed out.');if(typeof mod.createC2pa!=='function')throw new Error('C2PA export missing.');S.c2paEngine=await timeout(mod.createC2pa(),30000,'C2PA engine initialization timed out.')}const reader=await timeout(S.c2paEngine.reader.fromBlob(file.type||'application/octet-stream',file,{verify:{verifyAfterReading:true,verifyTrust:false}}),40000,'C2PA inspection timed out.');if(!reader)return{ok:true,found:false,entries:[],store:null,active:null};const store=await reader.manifestStore(),active=await reader.activeManifest();await reader.free();const raw={activeManifest:active,manifestStore:store};return{ok:true,found:true,store,active,raw,entries:flat(raw).map(x=>({...x,source:'C2PA'}))}}catch(e){last=e;S.c2paEngine=null}}return{ok:false,found:false,error:last?.message||'C2PA engine unavailable.',entries:[]}}
+    function pick(entries,keyRe,valueRe=null){const x=entries.find(e=>keyRe.test(e.key)&&(!valueRe||valueRe.test(e.value)));return x?.value||''}
+    function originModel(){const ce=S.c2pa?.entries||[],all=[...ce,...S.deep,...S.standard],m=S.markers||{};let generator=pick(ce,/claim.?generator.?info.*name/i)||pick(ce,/claim.?generator$/i)||m.generator||pick(all,/generator/i,/openai|adobe|google|microsoft/i);let agent=pick(ce,/software.?agent.*name/i)||pick(ce,/software.?agent/i)||m.agent||pick(all,/software.?agent/i);let source=pick(ce,/digital.?source.?type/i)||pick(all,/digital.?source.?type/i)|| (m.trained?'trainedAlgorithmicMedia':'');let version=pick(ce,/software.?agent.*version/i);if(agent&&version&&!agent.includes(version))agent+=` · v${version}`;const actionValues=[...new Set([...ce.filter(x=>/(^|\.)action$/i.test(x.key)&&/^c2pa\./i.test(x.value)).map(x=>x.value),...(m.actions||[])])];const statusValues=ce.filter(x=>/validation.?status|status.*code/i.test(x.key)).map(x=>x.value);let credential='Not detected';if(S.c2pa?.found)credential=statusValues.some(x=>/error|fail|invalid/i.test(x))?'Validation issues found':'Manifest read successfully';else if(m.c2pa)credential='Detected · verification unavailable';const c2pa=!!(S.c2pa?.found||m.c2pa),ai=!!(m.trained||/trainedalgorithmicmedia/i.test(source)||/gpt-image|openai/i.test(`${agent} ${generator}`));return{generator:generator||'Not declared',agent:agent||'Not declared',source:source?source.split('/').pop():'Not declared',credential,c2pa,ai,actions:actionValues,statusValues}}
+    function detailRow(k,v){const row=document.createElement('div');row.className='detail-row';const a=document.createElement('span');a.textContent=k;const b=document.createElement('strong');b.textContent=v||'Not declared';row.append(a,b);return row}
+    function updateOrigin(){const o=originModel(),gps=hasGps();E.generator.textContent=o.generator;E.agent.textContent=o.agent;E.sourceType.textContent=o.source;E.credential.textContent=o.credential;E.flagAi.className='flag'+(o.ai?' ai':'');E.flagC2pa.className='flag'+(o.c2pa?' on':'');E.flagGps.className='flag'+(gps?' on':'');E.flagExif.className='flag'+(S.standard.length?' on':'');if(o.ai){E.originTitle.textContent='AI provenance found';E.originHeadline.textContent='AI-generated content declared';E.originSubline.textContent=`The embedded provenance identifies ${o.generator}${o.agent!=='Not declared'?` and ${o.agent}`:''}.`;E.originMessage.classList.add('ai')}else if(o.c2pa){E.originTitle.textContent='Content Credentials found';E.originHeadline.textContent='Embedded provenance detected';E.originSubline.textContent='This image contains a C2PA manifest with origin or editing information.';E.originMessage.classList.remove('ai')}else{E.originTitle.textContent='No Content Credentials found';E.originHeadline.textContent='No embedded origin declaration detected';E.originSubline.textContent='This does not prove the image is human-made; provenance may be absent or removed.';E.originMessage.classList.remove('ai')}E.engine.className='status '+(o.c2pa?'found':'none');E.engine.textContent=S.deep.length?`Deep scan · ${S.entries.length} fields`:`Standard scan · ${S.entries.length} fields`;E.originDetails.replaceChildren(detailRow('Declared generator',o.generator),detailRow('Software agent',o.agent),detailRow('Digital source',o.source),detailRow('Credential status',o.credential),detailRow('GPS location',gps?'Detected':'Not detected'),detailRow('Inspection engines',S.deep.length?'ExifTool + C2PA + standard':'C2PA/marker + standard'));E.actions.replaceChildren();if(o.actions.length)o.actions.forEach(a=>{const n=document.createElement('span');n.className='action-chip';n.textContent=a;E.actions.append(n)});else{const n=document.createElement('span');n.className='action-chip';n.textContent='No actions declared';E.actions.append(n)}const raw={summary:o,markerScan:S.markers,c2pa:S.c2pa?.raw||null,c2paEngineError:S.c2pa?.error||null,exifTool:S.deep.length?'Loaded':'Unavailable or no tags'};E.rawOrigin.textContent=JSON.stringify(raw,null,2)}
+    function renderMeta(q=''){const needle=q.trim().toLowerCase(),list=S.entries.filter(x=>!needle||`${x.key} ${x.value} ${x.source}`.toLowerCase().includes(needle));E.metadata.replaceChildren();if(!list.length){const n=document.createElement('div');n.className='empty';n.textContent=S.entries.length?'No metadata matches your search.':'No readable metadata found.';E.metadata.append(n);return}const maps=new Map(groups.map(([n])=>[n,[]]));maps.set('Other metadata',[]);list.forEach(x=>{const g=groups.find(([,re])=>re.test(x.key));maps.get(g?g[0]:'Other metadata').push(x)});for(const[name,items]of maps){if(!items.length)continue;const box=document.createElement('section');box.className='group';const head=document.createElement('div');head.className='group-title';const t=document.createElement('div');t.textContent=name;const c=document.createElement('span');c.textContent=`${items.length} fields`;head.append(t,c);box.append(head);items.sort((a,b)=>a.key.localeCompare(b.key)).forEach(x=>{const row=document.createElement('div');row.className='meta-row';const k=document.createElement('div');k.className='meta-key';k.textContent=x.key;const source=document.createElement('span');source.className='source-tag';source.textContent=x.source;k.append(source);const v=document.createElement('div');v.className='meta-val';v.textContent=x.value||'Not recorded';row.append(k,v);box.append(row)});E.metadata.append(box)}}
+    function fillEdit(){const d=v=>{const m=String(v||'').match(/(\d{4})[:\-](\d{2})[:\-](\d{2})[ T](\d{2}):(\d{2})/);return m?`${m[1]}-${m[2]}-${m[3]}T${m[4]}:${m[5]}`:''};$('#artist').value=first('Artist','Creator');$('#copyright').value=first('Copyright','Rights');$('#make').value=first('Make');$('#model').value=first('Model');$('#taken').value=d(first('DateTimeOriginal','DateTime'));$('#software').value=first('Software','CreatorTool');$('#description').value=first('ImageDescription','Description');const lat=parseFloat(first('GPSLatitude')),lng=parseFloat(first('GPSLongitude'));$('#lat').value=Number.isFinite(lat)?lat:'';$('#lng').value=Number.isFinite(lng)?lng:'';E.saveEdit.disabled=!editable();$('#editNotice').textContent=editable()?'Editing an image with signed Content Credentials may invalidate its signature.':'Metadata editing is available for JPEG, PNG, WebP and TIFF images.'}
+    async function imageInfo(url){return new Promise(res=>{const i=new Image;i.onload=()=>res({w:i.naturalWidth,h:i.naturalHeight,ok:true});i.onerror=()=>res({w:0,h:0,ok:false});i.src=url})}
+    async function load(file){if(!file)return;if(file.size>MAX)return toast('Please choose an image smaller than 60 MB.','error');if(!file.type.startsWith('image/')&&!/\.(jpe?g|png|webp|gif|tiff?|heic|heif|avif)$/i.test(file.name))return toast('That file is not a supported image.','error');if(S.url)URL.revokeObjectURL(S.url);reset('edit');reset('clean');S.file=file;S.url=URL.createObjectURL(file);S.tags={};S.entries=[];S.standard=[];S.deep=[];S.container=[];S.c2pa=null;E.app.hidden=false;E.preview.src=S.url;E.name.textContent=file.name;E.size.textContent=bytes(file.size);E.mime.textContent=file.type||'Unknown image type';E.type.textContent=(file.type.split('/')[1]||file.name.split('.').pop()||'IMAGE').toUpperCase();E.engine.className='status loading';E.engine.textContent='Scanning';E.originTitle.textContent='Analysing provenance…';E.originHeadline.textContent='Looking beyond ordinary EXIF';E.originSubline.textContent='Checking C2PA, JUMBF, CBOR and generator declarations.';E.metadata.innerHTML='<div class="empty">Running standard and deep inspection…</div>';const info=await imageInfo(S.url);E.dimensions.textContent=info.w?`${info.w.toLocaleString()} × ${info.h.toLocaleString()} px`:'Preview unavailable';E.preview.hidden=!info.ok;try{const buffer=await file.arrayBuffer();S.markers=scanMarkers(buffer);S.container=containerEntries(buffer,file);try{const st=await standardInspect(file,buffer);S.tags=st.tags;S.standard=st.entries}catch(e){toast(e.message,'error')}S.entries=[...S.container,...S.standard];renderMeta();updateOrigin();fillEdit();const [deep,c2pa]=await Promise.all([exifToolInspect(file),c2paInspect(file)]);S.deep=deep.entries||[];S.c2pa=c2pa;const dedupe=new Map();[...S.deep,...S.standard,...S.container,...(c2pa.entries||[])].forEach(x=>{const key=`${x.source}:${x.key}`;if(!dedupe.has(key))dedupe.set(key,x)});S.entries=[...dedupe.values()];renderMeta(E.search.value);updateOrigin();if(!deep.ok)toast('Deep ExifTool engine was unavailable; standard and C2PA results are still shown.');if(!c2pa.ok&&S.markers.c2pa)toast('C2PA markers found, but cryptographic parsing was unavailable.','error')}catch(e){toast(e.message||'Could not inspect this image.','error')}E.app.scrollIntoView({behavior:'smooth',block:'start'})}
+    function switchTab(name,scroll=false){$$('.tab').forEach(x=>x.classList.toggle('active',x.dataset.tab===name));$$('.panel').forEach(x=>x.hidden=x.id!==`panel-${name}`);if(scroll)$('.tabs').scrollIntoView({behavior:'smooth',block:'start'})}
+    function setTag(obj,key,value){const v=String(value||'').trim();if(v)obj[key]=v;else delete obj[key]}
+    function coord(raw,min,max,label){if(String(raw).trim()==='')return null;const n=Number(raw);if(!Number.isFinite(n)||n<min||n>max)throw new Error(`${label} must be between ${min} and ${max}.`);return n}
+    function dms(n){const a=Math.abs(n),d=Math.floor(a),mf=(a-d)*60,m=Math.floor(mf),s=Math.round((mf-m)*60*10000);return[[d,1],[m,1],[s,10000]]}
+    async function writeJpeg(file,fields,dt,lat,lng){
+      if(!window.piexif)throw new Error('The JPEG metadata writer did not load.');
+      const du=await dataUrl(file);let ex;
+      try{ex=piexif.load(du)}catch{ex={'0th':{},Exif:{},GPS:{},Interop:{},'1st':{},thumbnail:null}}
+      ex['0th']||={};ex.Exif||={};ex.GPS||={};
+      setTag(ex['0th'],piexif.ImageIFD.Artist,fields.artist);
+      setTag(ex['0th'],piexif.ImageIFD.Copyright,fields.copyright);
+      setTag(ex['0th'],piexif.ImageIFD.Make,fields.make);
+      setTag(ex['0th'],piexif.ImageIFD.Model,fields.model);
+      setTag(ex['0th'],piexif.ImageIFD.Software,fields.software);
+      setTag(ex['0th'],piexif.ImageIFD.ImageDescription,fields.description);
+      setTag(ex.Exif,piexif.ExifIFD.DateTimeOriginal,dt);
+      setTag(ex.Exif,piexif.ExifIFD.DateTimeDigitized,dt);
+      if(lat!==null){ex.GPS[piexif.GPSIFD.GPSLatitudeRef]=lat<0?'S':'N';ex.GPS[piexif.GPSIFD.GPSLatitude]=dms(lat);ex.GPS[piexif.GPSIFD.GPSLongitudeRef]=lng<0?'W':'E';ex.GPS[piexif.GPSIFD.GPSLongitude]=dms(lng)}
+      return urlBlob(piexif.insert(piexif.dump(ex),du));
+    }
+    async function writeOther(file,fields,dt,lat,lng){
+      const tags=[],add=(tag,value)=>{if(String(value||'').trim())tags.push(`-${tag}=${String(value).trim()}`)};
+      add('XMP-dc:Creator',fields.artist);add('XMP-dc:Rights',fields.copyright);
+      add('XMP-tiff:Make',fields.make);add('XMP-tiff:Model',fields.model);
+      add('XMP-xmp:CreatorTool',fields.software);add('XMP-dc:Description',fields.description);
+      add('XMP-exif:DateTimeOriginal',dt?dt.replace(/^(\d{4}):(\d{2}):(\d{2}) /,'$1-$2-$3T'):dt);
+      if(lat!==null){add('XMP-exif:GPSLatitude',`${Math.abs(lat).toFixed(6)}${lat<0?'S':'N'}`);add('XMP-exif:GPSLongitude',`${Math.abs(lng).toFixed(6)}${lng<0?'W':'E'}`)}
+      if(!tags.length)throw new Error('Enter at least one metadata field.');
+      const urls=['https://esm.sh/@uswriting/exiftool@1.4.0?bundle','https://cdn.jsdelivr.net/npm/@uswriting/exiftool@1.4.0/+esm'];let last;
+      for(const url of urls){try{
+        const mod=await timeout(import(url),20000,'Metadata writer download timed out.');
+        if(typeof mod.writeMetadata!=='function')throw new Error('Metadata writer export missing.');
+        const result=await timeout(mod.writeMetadata(file,{tags}),60000,'Metadata writing timed out.');
+        if(!result.success||!result.data?.length)throw new Error(result.error||result.warnings||'This format could not be edited.');
+        return new Blob([result.data],{type:file.type||({'png':'image/png','webp':'image/webp','tif':'image/tiff','tiff':'image/tiff'})[file.name.split('.').pop().toLowerCase()]||'application/octet-stream'});
+      }catch(e){last=e}}
+      throw new Error(last?.message||'Metadata writer unavailable.');
+    }
+    async function edit(ev){
+      ev.preventDefault();if(!editable())return toast('Editing is available for JPEG, PNG, WebP and TIFF images.','error');
+      const original=S.file;busy(E.saveEdit,true);
+      try{
+        const fields=Object.fromEntries(['artist','copyright','make','model','software','description'].map(id=>[id,$('#'+id).value.trim()]));
+        const local=$('#taken').value,dt=local?local.replace(/^(\d{4})-(\d{2})-(\d{2})T/,'$1:$2:$3 ')+(local.length===16?':00':''):'';
+        const lat=coord($('#lat').value,-90,90,'Latitude'),lng=coord($('#lng').value,-180,180,'Longitude');
+        if((lat===null)!==(lng===null))throw new Error('Enter both latitude and longitude together.');
+        if(!Object.values(fields).some(Boolean)&&!dt&&lat===null)throw new Error('Enter at least one metadata field.');
+        const blob=jpeg(original)?await writeJpeg(original,fields,dt,lat,lng):await writeOther(original,fields,dt,lat,lng);
+        const ext=jpeg(original)?'jpg':original.name.split('.').pop().toLowerCase(),name=`${base(original.name)}-metadata-edited.${ext}`;
+        const checked=await inspectOutput(blob,name);
+        if(S.file!==original)throw new Error('The selected image changed during editing. Apply the fields again.');
+        const supplied=Object.values(fields).filter(Boolean);
+        const missing=()=>supplied.some(v=>!checked.entries.some(x=>x.value.toLowerCase().includes(v.toLowerCase())));
+        if(!jpeg(original)&&(!checked.fields||missing())){
+          const deep=await exifToolInspect(new File([blob],name,{type:blob.type}));
+          checked.entries.push(...deep.entries);checked.fields=checked.entries.length;
+        }
+        if(!checked.fields||missing())throw new Error('Some edited fields could not be confirmed. No download was created.');
+        reset('edit');S.outputs.edit={blob,name,url:URL.createObjectURL(blob)};
+        E.editName.textContent=`${name} · ${bytes(blob.size)} · ${checked.fields} fields re-inspected`;
+        E.editResult.hidden=false;toast('Metadata applied and the output re-inspected. The original remains untouched.');
+      }catch(e){toast(e.message||'Could not write metadata.','error')}
+      finally{busy(E.saveEdit,false,'Apply metadata');E.saveEdit.disabled=!editable()}
+    }
+    function canvasClean(file,q){return new Promise((res,rej)=>{const u=URL.createObjectURL(file),i=new Image;i.onload=()=>{try{const c=document.createElement('canvas');c.width=i.naturalWidth;c.height=i.naturalHeight;c.getContext('2d',{alpha:true}).drawImage(i,0,0);const mime=/png/i.test(file.type)?'image/png':/webp/i.test(file.type)?'image/webp':'image/jpeg';c.toBlob(b=>{URL.revokeObjectURL(u);b?res({blob:b,mime}):rej(new Error('Browser export failed.'))},mime,q)}catch(e){URL.revokeObjectURL(u);rej(e)}};i.onerror=()=>{URL.revokeObjectURL(u);rej(new Error('This browser cannot decode the image for complete cleaning.'))};i.src=u})}
+    async function inspectOutput(blob,name){const file=new File([blob],name,{type:blob.type}),buffer=await file.arrayBuffer();let entries=[];try{entries=(await standardInspect(file,buffer)).entries}catch{}if(!entries.length){const deep=await exifToolInspect(file);entries=deep.entries||[]}const markers=scanMarkers(buffer);return{fields:entries.length,entries,gps:hasGps(entries),c2pa:markers.c2pa,size:blob.size}}
+    async function clean(){const method=$('input[name="method"]:checked').value;if(method!=='full'&&!jpeg())return toast('GPS-only and EXIF-only cleaning require JPEG. Choose Complete pixel clean for this image.','error');if(method!=='full'&&!window.piexif)return toast('The JPEG cleaner did not load.','error');busy(E.clean,true);try{let blob,ext;if(method==='full'){const o=await canvasClean(S.file,+E.quality.value/100);blob=o.blob;ext=o.mime==='image/png'?'png':o.mime==='image/webp'?'webp':'jpg'}else{const du=await dataUrl(S.file);if(method==='exif')blob=urlBlob(piexif.remove(du));else{const ex=piexif.load(du);ex.GPS={};blob=urlBlob(piexif.insert(piexif.dump(ex),du))}ext='jpg'}const name=`${base(S.file.name)}-${method==='gps'?'gps-removed':'clean'}.${ext}`;const after=await inspectOutput(blob,name),before={fields:S.standard.length,gps:hasGps(),c2pa:originModel().c2pa,size:S.file.size};reset('clean');S.outputs.clean={blob,name,url:URL.createObjectURL(blob)};E.cleanName.textContent=`${name} · ${bytes(blob.size)}`;$('#beforeFields').textContent=before.fields;$('#beforeGps').textContent=before.gps?'Detected':'None';$('#beforeC2pa').textContent=before.c2pa?'Detected':'None';$('#beforeSize').textContent=bytes(before.size);$('#afterFields').textContent=after.fields;$('#afterGps').textContent=after.gps?'Still detected':'Removed / none';$('#afterC2pa').textContent=after.c2pa?'Still detected':'Removed / none';$('#afterSize').textContent=bytes(after.size);E.cleanResult.hidden=false;toast('Processing finished and the result was inspected again.')}catch(e){toast(e.message||'Could not clean this image.','error')}finally{busy(E.clean,false,'Clean and verify')}}
+    function download(kind){const o=S.outputs[kind];if(!o)return;const a=document.createElement('a');a.href=o.url;a.download=o.name;document.body.append(a);a.click();a.remove()}
+    function exportJson(){if(!S.file)return;const report={file:{name:S.file.name,size:S.file.size,type:S.file.type},origin:originModel(),markerScan:S.markers,c2pa:S.c2pa?.raw||null,metadata:S.entries};const blob=new Blob([JSON.stringify(report,null,2)],{type:'application/json'}),u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=`${base(S.file.name)}-metadata-report.json`;a.click();setTimeout(()=>URL.revokeObjectURL(u),1000)}
+    const manualToggle=$('#manualToggle'),manualDialog=$('#manualDialog');
+    manualToggle.addEventListener('click',()=>{if(!manualDialog.open)manualDialog.showModal()});
+    $('#manualClose').addEventListener('click',()=>manualDialog.close());
+    manualDialog.addEventListener('close',()=>manualToggle.focus({preventScroll:true}));
+    manualDialog.addEventListener('click',e=>{if(e.target!==manualDialog)return;const r=manualDialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)manualDialog.close()});
+    E.browse.addEventListener('click',e=>{e.stopPropagation();E.file.click()});E.drop.addEventListener('click',()=>E.file.click());E.drop.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();E.file.click()}});E.file.addEventListener('change',()=>{load(E.file.files[0]);E.file.value=''});['dragenter','dragover'].forEach(t=>E.drop.addEventListener(t,e=>{e.preventDefault();E.drop.classList.add('drag')}));['dragleave','drop'].forEach(t=>E.drop.addEventListener(t,e=>{e.preventDefault();E.drop.classList.remove('drag')}));E.drop.addEventListener('drop',e=>load(e.dataTransfer.files[0]));$('#change').addEventListener('click',()=>E.file.click());$$('.tab').forEach(t=>t.addEventListener('click',()=>switchTab(t.dataset.tab)));$$('[data-go]').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.go,true)));E.search.addEventListener('input',()=>renderMeta(E.search.value));$('#copyRaw').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(E.rawOrigin.textContent);toast('Raw provenance JSON copied.')}catch{toast('Clipboard access was blocked.','error')}});$('#exportJson').addEventListener('click',exportJson);E.editForm.addEventListener('submit',edit);$('#clearEdit').addEventListener('click',()=>{E.editForm.reset();reset('edit')});$$('input[name="method"]').forEach(r=>r.addEventListener('change',()=>{E.qualityBox.hidden=r.value!=='full'||!r.checked;reset('clean')}));E.quality.addEventListener('input',()=>E.qualityValue.textContent=`${E.quality.value}%`);E.clean.addEventListener('click',clean);$$('[data-download]').forEach(b=>b.addEventListener('click',()=>download(b.dataset.download)));addEventListener('beforeunload',()=>{if(S.url)URL.revokeObjectURL(S.url);Object.values(S.outputs).forEach(o=>o&&URL.revokeObjectURL(o.url));try{S.c2paEngine?.dispose()}catch{}});
+  })();
+  </script>
+</body>
+</html>
